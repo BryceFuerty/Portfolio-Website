@@ -14,6 +14,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { useState } from 'react'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import "../index.css"
 import "./Header.css"
 
@@ -30,7 +31,12 @@ interface DrawerAppBarProps {
 }
 
 const drawerWidth = 240;
-const navItems = ['Home', 'About', 'Contact'];
+
+const navItems = [
+  { label: 'Home', path: '/' },
+  { label: 'About', path: '/gallery' },
+  { label: 'Contact', path: '/contact' },
+];
 
 const DrawerAppBar : React.FC<DrawerAppBarProps> = ({ window, style }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -48,9 +54,9 @@ const DrawerAppBar : React.FC<DrawerAppBarProps> = ({ window, style }) => {
       <Divider />
       <List>
         {navItems.map((item) => (
-          <ListItem key={item} disablePadding>
+          <ListItem key={item.label} disablePadding>
             <ListItemButton sx={{ textAlign: 'center' }}>
-              <ListItemText primary={item} />
+              <ListItemText primary={item.label} />
             </ListItemButton>
           </ListItem>
         ))}
@@ -65,18 +71,6 @@ const DrawerAppBar : React.FC<DrawerAppBarProps> = ({ window, style }) => {
       <CssBaseline />
       <AppBar component="nav" sx={{backgroundColor:"black", paddingLeft:"40px"}}>
         <Toolbar style={{ minHeight:"100px"}}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            edge="start"
-            onClick={handleDrawerToggle}
-            sx={{ mr: 2, display: { sm: 'none' } }}
-          >
-            <MenuIcon />
-            
-            
-          </IconButton>
-
           <h1 style={{color:'ffffff', fontSize:'35px'}}>
               Bryce Fuertes
           </h1>
@@ -90,8 +84,8 @@ const DrawerAppBar : React.FC<DrawerAppBarProps> = ({ window, style }) => {
             </Typography>
           <Box className ="BoxHeader">
             {navItems.map((item) => (
-              <Button key={item} sx={{ color: '#ffffff', fontSize:'20px', fontFamily:"Roboto-Regular",textTransform: 'none', marginLeft:"25px"}}>
-                {item}
+              <Button key={item.label} component={Link} to={item.path}  sx={{ color: '#ffffff', fontSize:'20px', fontFamily:"Roboto-Regular",textTransform: 'none', marginLeft:"25px"}}>
+                {item.label}
               </Button>
             ))}
           </Box>
@@ -114,7 +108,6 @@ const DrawerAppBar : React.FC<DrawerAppBarProps> = ({ window, style }) => {
           {drawer}
         </Drawer>
       </nav>
-     
     </Box>
   );
 }
